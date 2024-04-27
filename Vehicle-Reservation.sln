@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vehicle-Reservation", "Backend-Vehicle-Reservation.csproj", "{D2E53FD3-6014-4390-917A-3625B25EE365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vehicle-Reservation", "./Backend-Vehicle-Reservation/Backend-Vehicle-Reservation.csproj", "{D2E53FD3-6014-4390-917A-3625B25EE365}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

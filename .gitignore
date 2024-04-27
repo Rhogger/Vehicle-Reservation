@@ -1,1 +1,8 @@
-*/bin
+Backend-Vehicle-Reservation/bin
+Backend-Vehicle-Reservation/obj
+
+# JSON files
+Backend-Vehicle-Reservation/appsettings.json
+Backend-Vehicle-Reservation/appsettings.Development.json
+Backend-Vehicle-Reservation/launchSettings.json
+Backend-Vehicle-Reservation/Backend-Vehicle-Reservation.http
