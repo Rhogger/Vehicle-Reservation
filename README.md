@@ -38,7 +38,7 @@ Com ele, você pode:
 ## 🚀 Tecnologias <a name = "tecnologias"></a>
 
 - .NET
-- ASP NET Core
+- ASP.NET Core
 - xUnit
 
 <br>
