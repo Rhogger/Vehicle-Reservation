@@ -2,4 +2,4 @@
 
 ### Namespace abaixo:
 
-namespace VehicleReservation.Rules.<Rule_Name>;
+namespace VehicleReservation.Rules;

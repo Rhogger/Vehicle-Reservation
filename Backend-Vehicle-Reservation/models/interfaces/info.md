@@ -2,4 +2,4 @@
 
 ### Namespace abaixo:
 
-namespace VehicleReservation.Models.Interfaces.<Interface_Name>;
+namespace VehicleReservation.Models.Interfaces;

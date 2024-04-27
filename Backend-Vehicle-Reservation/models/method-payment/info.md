@@ -2,4 +2,4 @@
 
 ### Namespace abaixo:
 
-namespace VehicleReservation.Models.Utils.Method_Payment.<Payment_Name>;
+namespace VehicleReservation.Models.Utils.Method_Payment;

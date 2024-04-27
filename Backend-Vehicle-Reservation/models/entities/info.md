@@ -2,4 +2,4 @@
 
 ### Namespace abaixo:
 
-namespace VehicleReservation.Models.Entities.<Entity_Name>;
+namespace VehicleReservation.Models.Entities;
