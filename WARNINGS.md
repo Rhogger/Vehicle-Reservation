@@ -29,3 +29,6 @@ Se possível, utilize das boas práticas ao fazer um commit. Eu (Rhogger) estou 
 Link: https://github.com/iuricode/padroes-de-commits
 
 Não é obrigatório, mas ajuda a manter uma organização sobre o histórico de commits.
+
+### Idioma:
+Todo o código será em inglês.
