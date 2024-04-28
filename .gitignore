@@ -1,5 +1,12 @@
-Backend-Vehicle-Reservation/bin
-Backend-Vehicle-Reservation/obj
+# Garbage
+*/bin
+bin
+*/obj
+obj
+
+# VSCO Configs
+.vscode/
+
 
 # JSON files
 Backend-Vehicle-Reservation/appsettings.json
