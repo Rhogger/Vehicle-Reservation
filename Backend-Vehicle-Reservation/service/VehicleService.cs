@@ -1,4 +1,5 @@
 using VehicleReservation.Models.Entities;
+using VehicleReservation.Models.Interfaces;
 
 public class VehicleService : IVehicleService
 {
