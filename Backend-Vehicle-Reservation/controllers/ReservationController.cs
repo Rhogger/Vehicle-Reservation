@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using VehicleReservation.Models.Entities;
+using VehicleReservation.Models.Interfaces;
 
 namespace VehicleReservation.Controllers;
 
@@ -7,11 +9,19 @@ namespace VehicleReservation.Controllers;
 public class ReservationController : ControllerBase
 {
   private readonly ILogger<ReservationController> _logger;
-
-  public ReservationController(ILogger<ReservationController> logger)
+  private readonly IReservationService _reservationService;
+  public ReservationController(ILogger<ReservationController> logger, IReservationService reservationService)
   {
     _logger = logger;
+    _reservationService = reservationService;
   }
 
-}
+  [HttpPost(Name = "Create reservation")]
+  public IActionResult Create([FromBody] Reservation reservation)
+  {
+    reservation.Id = Guid.NewGuid().ToString();
+    _reservationService.Add(reservation);
 
+    return CreatedAtAction(nameof(Create), new { id = reservation.Id }, reservation);
+  }
+}
