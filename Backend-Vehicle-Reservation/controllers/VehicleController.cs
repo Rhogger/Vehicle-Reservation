@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using VehicleReservation.Models.Entities;
+using VehicleReservation.Models.Interfaces;
 
 namespace VehicleReservation.Controllers;
 
@@ -34,4 +35,3 @@ public class VehicleController : ControllerBase
     return CreatedAtAction(nameof(Create), new { id = vehicle.Id }, vehicle);
   }
 }
-
