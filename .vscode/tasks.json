@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Execute backend",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "run",
+        "--project",
+        "Backend-Vehicle-Reservation"
+      ],
+      "problemMatcher": "$dotnetCore"
+    }
+  ]
+}

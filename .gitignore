@@ -4,10 +4,6 @@ bin
 */obj
 obj
 
-# VSCO Configs
-.vscode/
-
-
 # JSON files
 Backend-Vehicle-Reservation/appsettings.json
 Backend-Vehicle-Reservation/appsettings.Development.json
