@@ -1,6 +1,6 @@
 using VehicleReservation.Models.Entities;
 using VehicleReservation.Models.Interfaces;
-using VehicleReservation.Services.Database;
+using VehicleReservation.Database;
 
 namespace VehicleReservation.Service;
 
@@ -18,17 +18,17 @@ public class VehicleService : IVehicleService
 
     if (year != null)
     {
-      vehicles = vehicles.Where(v => v.Year == year);
+      vehicles = vehicles.Where(v => v.year == year);
     }
 
     if (make != null)
     {
-      vehicles = vehicles.Where(v => v.Make == make);
+      vehicles = vehicles.Where(v => v.make == make);
     }
 
     if (passengerCapacity != null)
     {
-      vehicles = vehicles.Where(v => v.Passenger_Capacity == passengerCapacity);
+      vehicles = vehicles.Where(v => v.passenger_capacity == passengerCapacity);
     }
 
     return vehicles.ToList();
