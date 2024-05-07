@@ -1,15 +1,20 @@
 using VehicleReservation.Models.Entities;
 using VehicleReservation.Models.Interfaces;
+using VehicleReservation.Services.Database;
 
 namespace VehicleReservation.Service;
 
 public class VehicleService : IVehicleService
 {
-  private readonly List<Vehicle> _vehicles = new List<Vehicle>();
+  private readonly ConnectionContext _context;
 
+  public VehicleService(ConnectionContext context)
+  {
+    _context = context;
+  }
   public List<Vehicle> GetByFilter(string? year, string? make, int? passengerCapacity)
   {
-    var vehicles = _vehicles.AsQueryable(); 
+    IQueryable<Vehicle> vehicles = _context.Set<Vehicle>();
 
     if (year != null)
     {
@@ -23,7 +28,7 @@ public class VehicleService : IVehicleService
 
     if (passengerCapacity != null)
     {
-      vehicles = vehicles.Where(v => v.PassengerCapacity == passengerCapacity);
+      vehicles = vehicles.Where(v => v.Passenger_Capacity == passengerCapacity);
     }
 
     return vehicles.ToList();
@@ -31,16 +36,13 @@ public class VehicleService : IVehicleService
 
   public void Add(Vehicle vehicle)
   {
-    _vehicles.Add(vehicle);
+    _context.Set<Vehicle>().Add(vehicle);
+    _context.SaveChanges();
   }
 
-  public Boolean VehicleMin(){
-    int numberOfVehicles = _vehicles.Count;
-    Boolean result;
-    if (numberOfVehicles > 5)
-      result = true;
-    else 
-      result = false;
-    return result;
+  public Boolean VehicleMin()
+  {
+    int numberOfVehicles = _context.Set<Vehicle>().Count();
+    return numberOfVehicles > 5;
   }
 }
