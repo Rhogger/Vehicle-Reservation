@@ -1,17 +1,20 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace VehicleReservation.Models.Entities
 {
+    [Table("vehicles")]
     public class Vehicle
     {
         [Key]
-        public string Vehicle_Id { get; set; }
-        public string Make { get; set; }
-        public string Model { get; set; }
-        public string Year { get; set; }
-        public string Color { get; set; }
-        public string Plate { get; set; }
-        public int Passenger_Capacity { get; set; }
+        [JsonIgnore]
+        public int? vehicle_id { get; set; }
+        public string make { get; set; }
+        public string model { get; set; }
+        public string year { get; set; }
+        public string color { get; set; }
+        public string plate { get; set; }
+        public int passenger_capacity { get; set; }
     }
 }

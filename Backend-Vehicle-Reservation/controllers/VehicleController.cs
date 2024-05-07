@@ -30,9 +30,8 @@ public class VehicleController : ControllerBase
   [HttpPost(Name = "Create vehicle")]
   public IActionResult Create([FromBody] Vehicle vehicle)
   {
-    vehicle.Vehicle_Id = Guid.NewGuid().ToString();
     _vehicleService.Add(vehicle);
 
-    return CreatedAtAction(nameof(GetByFilter), new { id = vehicle.Vehicle_Id }, vehicle);
+    return CreatedAtAction(nameof(GetByFilter), vehicle);
   }
 }

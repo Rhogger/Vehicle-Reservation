@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ConnectionContext>();
+builder.Services.AddSingleton<ConnectionContext>();
 
 builder.Services.AddSingleton<IVehicleService, VehicleService>();
 builder.Services.AddSingleton<IReservationService, ReservationService>();
