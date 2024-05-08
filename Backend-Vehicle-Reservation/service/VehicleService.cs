@@ -47,6 +47,6 @@ public class VehicleService : IVehicleService
   public Boolean VehicleMin()
   {
     int numberOfVehicles = _context.Set<Vehicle>().Count();
-    return numberOfVehicles > 5;
+    return numberOfVehicles >= 5;
   }
 }
