@@ -30,7 +30,7 @@ public class VehicleController : ControllerBase
   [HttpPost(Name = "Create vehicle")]
   public IActionResult Create([FromBody] Vehicle vehicle)
   {
-    vehicle.Validate();
+    if (!vehicle.IsValid()) return BadRequest("The object could not be created because some parameter was filled in incorrectly.");
 
     _vehicleService.Add(vehicle);
 
