@@ -7,6 +7,7 @@ public class ConnectionContext : DbContext
 {
     public DbSet<Vehicle> Vehicles { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<Payment> Payments { get; set; }
     private string ConnectionString { get; set; }
     public ConnectionContext(IConfiguration configuration)
     {
@@ -21,5 +22,6 @@ public class ConnectionContext : DbContext
     {
         modelBuilder.Entity<Vehicle>().ToTable("vehicles");
         modelBuilder.Entity<Reservation>().ToTable("reservations");
+        modelBuilder.Entity<Reservation>().ToTable("payments");
     }
 }
