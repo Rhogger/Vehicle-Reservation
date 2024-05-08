@@ -21,15 +21,17 @@ public class VehicleController : ControllerBase
   {
     var vehicles = _vehicleService.GetByFilter(year, make, passengerCapacity);
 
-    if (vehicles.Any()) 
+    if (vehicles.Any())
       return Ok(vehicles);
-    else 
+    else
       return NotFound("No vehicles found for the specified filter.");
   }
 
   [HttpPost(Name = "Create vehicle")]
   public IActionResult Create([FromBody] Vehicle vehicle)
   {
+    vehicle.Validate();
+
     _vehicleService.Add(vehicle);
 
     return CreatedAtAction(nameof(GetByFilter), vehicle);
