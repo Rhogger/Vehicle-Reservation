@@ -18,8 +18,6 @@ public class Vehicle
     public string color { get; set; }
     public string plate { get; set; }
     public int passenger_capacity { get; set; }
-    [JsonConstructor]
-    public Vehicle() { }
 
     public Vehicle(string make, string model, string year, string color, string plate, int passenger_capacity)
     {

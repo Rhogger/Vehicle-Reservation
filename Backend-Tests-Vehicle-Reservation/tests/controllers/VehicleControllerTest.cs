@@ -24,22 +24,24 @@ public class VehicleControllerTest
     string plate = "NGA0886";
     int passengerCapacity = 5;
 
+    VehicleInput vehicleInput = new VehicleInput(make, model, year, color, plate, passengerCapacity);
     Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
 
-    mockVehicleService.Setup(service => service.Add(vehicle));
+    mockVehicleService.Setup(service => service.Add(It.IsAny<Vehicle>()));
 
     var controller = new VehicleController(mockLogger.Object, mockVehicleService.Object);
 
     // Act
-    var result = controller.Create(vehicle);
+    var result = controller.Create(vehicleInput);
 
     // Assert
     Assert.IsType<CreatedAtActionResult>(result);
     var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
     Assert.Equal(nameof(controller.Create), createdAtActionResult.ActionName);
 
-    mockVehicleService.Verify(service => service.Add(vehicle), Times.Once);
+    mockVehicleService.Verify(service => service.Add(It.IsAny<Vehicle>()), Times.Once);
   }
+
 
   [Fact]
   public void GetByFilter_ReturnsNotFound()
@@ -83,7 +85,7 @@ public class VehicleControllerTest
     // Assert
     var okResult = Assert.IsType<OkObjectResult>(result);
     var vehicles = Assert.IsAssignableFrom<IEnumerable<Vehicle>>(okResult.Value);
-    Assert.NotEmpty(vehicles); 
+    Assert.NotEmpty(vehicles);
     Assert.Contains(expectedVehicle, vehicles);
   }
 

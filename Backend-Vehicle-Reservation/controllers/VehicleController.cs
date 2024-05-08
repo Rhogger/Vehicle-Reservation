@@ -22,13 +22,11 @@ public class VehicleController : ControllerBase
   {
     var vehicle = new Vehicle(inputModel.make, inputModel.model, inputModel.year, inputModel.color, inputModel.plate, inputModel.passenger_capacity);
 
-//FIXME: Isso nao deveria estar aqui
-    if (!_vehicleService.VehicleMin())
-      return BadRequest("The minimum number of vehicles must be reached.");
+    if (!vehicle.IsValid()) return BadRequest("The object could not be created because some parameter was filled in incorrectly.");
 
     _vehicleService.Add(vehicle);
 
-    return CreatedAtAction(nameof(GetByFilter), new { id = vehicle.vehicle_id }, vehicle);
+    return CreatedAtAction(nameof(Create), new { id = vehicle.vehicle_id }, vehicle);
   }
 
   [HttpGet(Name = "Get vehicles by all filters")]
