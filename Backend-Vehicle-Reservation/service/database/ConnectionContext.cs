@@ -22,6 +22,6 @@ public class ConnectionContext : DbContext
     {
         modelBuilder.Entity<Vehicle>().ToTable("vehicles");
         modelBuilder.Entity<Reservation>().ToTable("reservations");
-        modelBuilder.Entity<Reservation>().ToTable("payments");
+        modelBuilder.Entity<Payment>().ToTable("payments");
     }
 }
