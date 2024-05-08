@@ -34,6 +34,6 @@ public class VehicleController : ControllerBase
 
     _vehicleService.Add(vehicle);
 
-    return CreatedAtAction(nameof(GetByFilter), vehicle);
+    return CreatedAtAction(nameof(Create), vehicle);
   }
 }
