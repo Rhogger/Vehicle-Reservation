@@ -20,5 +20,6 @@ public class ConnectionContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Vehicle>().ToTable("vehicles");
+        modelBuilder.Entity<Reservation>().ToTable("reservations");
     }
 }
