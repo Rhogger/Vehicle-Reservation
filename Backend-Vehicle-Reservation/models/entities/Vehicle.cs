@@ -8,9 +8,8 @@ namespace VehicleReservation.Models.Entities;
 public class Vehicle
 {
     [Key]
-    [JsonIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int? vehicle_id { get; set; }
-
     public string make { get; set; }
     public string model { get; set; }
     public string year { get; set; }

@@ -1,21 +1,20 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace VehicleReservation.Models.Entities;
+
+[Table("reservations")]
 public class Reservation
 {
-  private string _id { get; set; }
-  private Vehicle _selectedVehicle { get; set; }
-  private DateTime _startDate { get; set; }
-  private DateTime _endDate { get; set; }
-  private float _value { get; set; }
-  private Payment _payment { get; set; }
-
-  [JsonIgnore]
-  public string Id { get; set; }
-  public Vehicle SelectedVehicle { get; set; }
-  public DateTime StartDate { get; set; }
-  public DateTime EndDate { get; set; }
-  [JsonIgnore]
-  public float Value { get; set; }
-  public Payment Payment { get; set; }
+  [Key]
+  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+  public int? reservation_id { get; set; }
+  public int vehicle_id { get; set; }
+  public DateTime start_date { get; set; }
+  public DateTime end_date { get; set; }
+  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+  public double? value { get; set; }
+  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+  public int? payment_id { get; set; }  
 }
