@@ -1,6 +1,7 @@
 using VehicleReservation.Models.Entities;
 using VehicleReservation.Models.Interfaces;
 using VehicleReservation.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace VehicleReservation.Service;
 
@@ -17,10 +18,11 @@ public class ReservationService : IReservationService
 
     public List<Reservation> GetByFilter(int? vehicle_id, DateTime? startDate, DateTime? endDate)
     {
-        IQueryable<Reservation> reservations = _context.Set<Reservation>();
+        IQueryable<Reservation> reservations = _context.Set<Reservation>()
+            .Include(r => r.Payment);
 
         if (vehicle_id != null)
-            reservations = reservations.Where(v => v.vehicle_id == vehicle_id);  
+            reservations = reservations.Where(r => r.vehicle_id == vehicle_id);
 
         if (startDate != null)
         {
@@ -32,7 +34,7 @@ public class ReservationService : IReservationService
         {
             DateTime endUtc = endDate.Value.ToUniversalTime();
             reservations = reservations.Where(r => r.start_date <= endUtc || r.end_date <= endUtc);
-        } 
+        }
 
         return reservations.ToList();
     }
@@ -40,13 +42,13 @@ public class ReservationService : IReservationService
     public void Add(Reservation reservation)
     {
         if (!_vehicleService.VehicleMin())
-            throw new InvalidOperationException("There are not enough cars available to make the reservation.");        
+            throw new InvalidOperationException("There are not enough cars available to make the reservation.");
 
-        if (!ValidReservation(reservation))        
+        if (!ValidReservation(reservation))
             throw new InvalidOperationException("There is already a reservation for this vehicle during this period.");
-        
+
         TimeSpan difference = reservation.end_date - reservation.start_date;
-        int numberOfDays = difference.Days; 
+        int numberOfDays = difference.Days;
         reservation.value = numberOfDays * 150;
 
         _context.Reservations.Add(reservation);
@@ -56,8 +58,8 @@ public class ReservationService : IReservationService
     public Boolean ValidReservation(Reservation reservation)
     {
         return !_context.Reservations.Any(r =>
-            r.vehicle_id == reservation.vehicle_id && 
-            ((reservation.start_date <= r.end_date && reservation.start_date >= r.start_date) || 
-            (reservation.end_date <= r.end_date && reservation.end_date >= r.start_date )));
+            r.vehicle_id == reservation.vehicle_id &&
+            ((reservation.start_date <= r.end_date && reservation.start_date >= r.start_date) ||
+            (reservation.end_date <= r.end_date && reservation.end_date >= r.start_date)));
     }
 }
