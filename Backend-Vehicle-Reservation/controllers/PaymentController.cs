@@ -9,9 +9,9 @@ namespace VehicleReservation.Controllers;
 [Route("[controller]/[action]")]
 public class PaymentController : ControllerBase
 {
-  private readonly ILogger<ReservationController> _logger;
+  private readonly ILogger<PaymentController> _logger;
   private readonly IPaymentService _paymentService;
-  public PaymentController(ILogger<ReservationController> logger, IPaymentService paymentService)
+  public PaymentController(ILogger<PaymentController> logger, IPaymentService paymentService)
   {
     _logger = logger;
     _paymentService = paymentService;

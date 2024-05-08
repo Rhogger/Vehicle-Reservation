@@ -9,7 +9,7 @@ namespace VehicleReservation.Models.Entities;
 public class Payment
 {
   [Key]
-  public string payment_id { get; set; }  
+  public int? payment_id { get; set; }  
   public int reservation_id { get; set; }
   public double value { get; set; }  
   public PaymentType type {get; set; }
