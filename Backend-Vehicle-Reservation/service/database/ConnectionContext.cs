@@ -7,14 +7,14 @@ public class ConnectionContext : DbContext
 {
     public DbSet<Vehicle> Vehicles { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
-    // private string ConnectionString { get; set; }
-    // public ConnectionContext(IConfiguration configuration)
-    // {
-    //     ConnectionString = configuration.GetConnectionString("Default");
-    // }
+    private string ConnectionString { get; set; }
+    public ConnectionContext(IConfiguration configuration)
+    {
+        ConnectionString = configuration.GetConnectionString("Default");
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("");
+        optionsBuilder.UseNpgsql(ConnectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
