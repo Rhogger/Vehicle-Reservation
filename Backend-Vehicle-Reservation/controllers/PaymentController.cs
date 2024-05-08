@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using VehicleReservation.Enums;
 using VehicleReservation.Models.Entities;
 using VehicleReservation.Models.Interfaces;
 
@@ -18,7 +17,7 @@ public class PaymentController : ControllerBase
   }
 
   [HttpGet(Name = "Get payments by all filters")]
-  public IActionResult GetByFilter([FromQuery] int? reservation_id, double? value, PaymentType? type)
+  public IActionResult GetByFilter([FromQuery] int? reservation_id, double? value, string? type)
   {
     var payments = _paymentService.GetByFilter(reservation_id, value, type);
 
