@@ -42,6 +42,28 @@ public class VehicleControllerTest
     mockVehicleService.Verify(service => service.Add(It.IsAny<Vehicle>()), Times.Once);
   }
 
+  [Fact]
+  public void Create_InvalidVehicle_ReturnsBadRequest()
+  {
+    // Arrange
+    string make = "Nissan";
+    string model = "Skyline GT-R";
+    string year = "2024";
+    string color = "Azul";
+    string plate = "NGA0886";
+    int passengerCapacity = 0;
+
+    VehicleInput vehicleInput = new VehicleInput(make, model, year, color, plate, passengerCapacity);
+
+    var controller = new VehicleController(mockLogger.Object, mockVehicleService.Object);
+
+    // Act
+    var result = controller.Create(vehicleInput);
+
+    // Assert
+    Assert.IsType<BadRequestObjectResult>(result);
+  }
+
 
   [Fact]
   public void GetByFilter_ReturnsNotFound()
