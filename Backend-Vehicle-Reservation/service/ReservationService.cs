@@ -15,6 +15,28 @@ public class ReservationService : IReservationService
         _vehicleService = vehicleService;
     }
 
+    public List<Reservation> GetByFilter(int? vehicle_id, DateTime? startDate, DateTime? endDate)
+    {
+        IQueryable<Reservation> reservations = _context.Set<Reservation>();
+
+        if (vehicle_id != null)
+            reservations = reservations.Where(v => v.vehicle_id == vehicle_id);  
+
+        if (startDate != null)
+        {
+            DateTime startUtc = startDate.Value.ToUniversalTime();
+            reservations = reservations.Where(r => r.start_date >= startUtc || r.end_date >= startUtc);
+        }
+
+        if (endDate != null)
+        {
+            DateTime endUtc = endDate.Value.ToUniversalTime();
+            reservations = reservations.Where(r => r.start_date <= endUtc || r.end_date <= endUtc);
+        } 
+
+        return reservations.ToList();
+    }
+
     public void Add(Reservation reservation)
     {
         if (!_vehicleService.VehicleMin())
@@ -24,7 +46,7 @@ public class ReservationService : IReservationService
             throw new InvalidOperationException("There is already a reservation for this vehicle during this period.");
         
         TimeSpan difference = reservation.end_date - reservation.start_date;
-        int numberOfDays = difference.Days;
+        int numberOfDays = difference.Days; 
         reservation.value = numberOfDays * 150;
 
         _context.Reservations.Add(reservation);
