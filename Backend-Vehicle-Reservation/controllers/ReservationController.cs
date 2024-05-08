@@ -16,6 +16,17 @@ public class ReservationController : ControllerBase
     _reservationService = reservationService;
   }
 
+  [HttpGet(Name = "Get reservations by all filters")]
+  public IActionResult GetByFilter([FromQuery] int? vehicle_id, DateTime? startDate, DateTime? endDate)
+  {
+    var reservations = _reservationService.GetByFilter(vehicle_id, startDate, endDate);
+
+    if (reservations.Any())
+      return Ok(reservations);
+    else
+      return NotFound("No reservations found for the specified filter.");
+  }
+
   [HttpPost(Name = "Create reservation")]
   public IActionResult Create([FromBody] Reservation reservation)
   {

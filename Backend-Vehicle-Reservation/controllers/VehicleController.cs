@@ -10,10 +10,25 @@ public class VehicleController : ControllerBase
 {
   private readonly ILogger<VehicleController> _logger;
   private readonly IVehicleService _vehicleService;
+
   public VehicleController(ILogger<VehicleController> logger, IVehicleService vehicleService)
   {
     _logger = logger;
     _vehicleService = vehicleService;
+  }
+
+  [HttpPost(Name = "Create vehicle")]
+  public IActionResult Create([FromBody] VehicleInput inputModel)
+  {
+    var vehicle = new Vehicle(inputModel.make, inputModel.model, inputModel.year, inputModel.color, inputModel.plate, inputModel.passenger_capacity);
+
+//FIXME: Isso nao deveria estar aqui
+    if (!_vehicleService.VehicleMin())
+      return BadRequest("The minimum number of vehicles must be reached.");
+
+    _vehicleService.Add(vehicle);
+
+    return CreatedAtAction(nameof(GetByFilter), new { id = vehicle.vehicle_id }, vehicle);
   }
 
   [HttpGet(Name = "Get vehicles by all filters")]
@@ -25,15 +40,5 @@ public class VehicleController : ControllerBase
       return Ok(vehicles);
     else
       return NotFound("No vehicles found for the specified filter.");
-  }
-
-  [HttpPost(Name = "Create vehicle")]
-  public IActionResult Create([FromBody] Vehicle vehicle)
-  {
-    if (!vehicle.IsValid()) return BadRequest("The object could not be created because some parameter was filled in incorrectly.");
-
-    _vehicleService.Add(vehicle);
-
-    return CreatedAtAction(nameof(Create), vehicle);
   }
 }
