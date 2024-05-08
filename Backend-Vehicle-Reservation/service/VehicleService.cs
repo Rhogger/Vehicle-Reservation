@@ -12,24 +12,28 @@ public class VehicleService : IVehicleService
   {
     _context = context;
   }
-  public List<Vehicle> GetByFilter(string? year, string? make, int? passengerCapacity)
+  
+  public List<Vehicle> GetByFilter(string? make, string? model, string? year, string? color, string? plate, int? passengerCapacity)
   {
     IQueryable<Vehicle> vehicles = _context.Set<Vehicle>();
 
-    if (year != null)
-    {
-      vehicles = vehicles.Where(v => v.year == year);
-    }
-
     if (make != null)
-    {
-      vehicles = vehicles.Where(v => v.make == make);
-    }
+      vehicles = vehicles.Where(v => v.make == make);  
+
+    if (model != null)
+      vehicles = vehicles.Where(v => v.model == model); 
+    
+    if (year != null)
+      vehicles = vehicles.Where(v => v.year == year);  
+
+    if (color != null)
+      vehicles = vehicles.Where(v => v.color == color); 
+
+    if (plate != null)
+      vehicles = vehicles.Where(v => v.plate == plate); 
 
     if (passengerCapacity != null)
-    {
       vehicles = vehicles.Where(v => v.passenger_capacity == passengerCapacity);
-    }
 
     return vehicles.ToList();
   }

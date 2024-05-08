@@ -17,9 +17,9 @@ public class VehicleController : ControllerBase
   }
 
   [HttpGet(Name = "Get vehicles by all filters")]
-  public IActionResult GetByFilter([FromQuery] string? year, string? make, int? passengerCapacity)
+  public IActionResult GetByFilter([FromQuery] string? make, string? model, string? year, string? color, string? plate, int? passengerCapacity)
   {
-    var vehicles = _vehicleService.GetByFilter(year, make, passengerCapacity);
+    var vehicles = _vehicleService.GetByFilter(make, model, year, color, plate, passengerCapacity);
 
     if (vehicles.Any())
       return Ok(vehicles);
