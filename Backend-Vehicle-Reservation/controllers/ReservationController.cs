@@ -5,7 +5,7 @@ using VehicleReservation.Models.Interfaces;
 namespace VehicleReservation.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]/[action]")]
 public class ReservationController : ControllerBase
 {
   private readonly ILogger<ReservationController> _logger;
@@ -19,9 +19,8 @@ public class ReservationController : ControllerBase
   [HttpPost(Name = "Create reservation")]
   public IActionResult Create([FromBody] Reservation reservation)
   {
-    reservation.Id = Guid.NewGuid().ToString();
     _reservationService.Add(reservation);
 
-    return CreatedAtAction(nameof(Create), new { id = reservation.Id }, reservation);
+    return CreatedAtAction(nameof(Create), reservation);
   }
 }

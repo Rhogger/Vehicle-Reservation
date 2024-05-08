@@ -1,42 +1,41 @@
 using VehicleReservation.Models.Entities;
 using VehicleReservation.Models.Interfaces;
+using VehicleReservation.Database;
 
 namespace VehicleReservation.Service;
 
 public class ReservationService : IReservationService
 {
-    private readonly List<Reservation> _reservations = new List<Reservation>();
-    private readonly VehicleService _vehicleService;
+    private readonly ConnectionContext _context;
+    private readonly IVehicleService _vehicleService;
+
+    public ReservationService(ConnectionContext context, IVehicleService vehicleService)
+    {
+        _context = context;
+        _vehicleService = vehicleService;
+    }
 
     public void Add(Reservation reservation)
     {
-        if (_vehicleService.VehicleMin())
-        {
-            if (ValidReservation(reservation))
-            {
-                TimeSpan difference = reservation.EndDate.Subtract(reservation.StartDate);
-                int numberOfDays = difference.Days;
-                reservation.Value = numberOfDays * 150; 
-                _reservations.Add(reservation);
-            }
-            // else
-            // dar um aviso que já tem reserva para esse carro nessa data                    
-        } 
-        // else
-        // dar um aivso que não tem 5 carro vrum vrum
+        if (!_vehicleService.VehicleMin())
+            throw new InvalidOperationException("There are not enough cars available to make the reservation.");        
+
+        if (!ValidReservation(reservation))        
+            throw new InvalidOperationException("There is already a reservation for this vehicle during this period.");
+        
+        TimeSpan difference = reservation.end_date - reservation.start_date;
+        int numberOfDays = difference.Days;
+        reservation.value = numberOfDays * 150;
+
+        _context.Reservations.Add(reservation);
+        _context.SaveChanges();
     }
 
     public Boolean ValidReservation(Reservation reservation)
     {
-        Boolean result = true;
-        foreach (var existingReservation in _reservations)
-        {
-            if (existingReservation.SelectedVehicle == reservation.SelectedVehicle)
-            {
-                if (reservation.StartDate < existingReservation.EndDate && reservation.EndDate > existingReservation.StartDate)
-                    result = false;        
-            }
-        }
-        return result;
+        return !_context.Reservations.Any(r =>
+            r.vehicle_id == reservation.vehicle_id && 
+            ((reservation.start_date <= r.end_date && reservation.start_date >= r.start_date) || 
+            (reservation.end_date <= r.end_date && reservation.end_date >= r.start_date )));
     }
 }
