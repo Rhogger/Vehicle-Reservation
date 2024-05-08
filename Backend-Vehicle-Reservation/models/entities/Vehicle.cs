@@ -1,6 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using VehicleReservation.Models.Entities;
-using VehicleReservation.Models.Interfaces;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 
 namespace VehicleReservation.Models.Entities;
 
