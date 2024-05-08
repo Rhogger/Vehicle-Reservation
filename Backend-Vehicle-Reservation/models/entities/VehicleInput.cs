@@ -1,3 +1,5 @@
+namespace VehicleReservation.Models.Entities;
+
 public class VehicleInput
 {
   public string make { get; set; }
