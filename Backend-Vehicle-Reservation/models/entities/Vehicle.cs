@@ -2,38 +2,137 @@ using Microsoft.AspNetCore.Mvc;
 using VehicleReservation.Models.Entities;
 using VehicleReservation.Models.Interfaces;
 
-namespace VehicleReservation.Controllers;
+namespace VehicleReservation.Models.Entities;
 
-[ApiController]
-[Route("[controller]/[action]")]
-public class VehicleController : ControllerBase
+[Table("vehicles")]
+public class Vehicle
 {
-    private readonly ILogger<VehicleController> _logger;
-    private readonly IVehicleService _vehicleService;
-    public VehicleController(ILogger<VehicleController> logger, IVehicleService vehicleService)
+    [Key]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int? vehicle_id { get; set; }
+    public string make { get; set; }
+    public string model { get; set; }
+    public string year { get; set; }
+    public string color { get; set; }
+    public string plate { get; set; }
+    public int passenger_capacity { get; set; }
+    [JsonConstructor]
+    public Vehicle() { }
+
+    public Vehicle(string make, string model, string year, string color, string plate, int passenger_capacity)
     {
-        _logger = logger;
-        _vehicleService = vehicleService;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.color = color;
+        this.plate = plate;
+        this.passenger_capacity = passenger_capacity;
+    }
+    public bool IsValid()
+    {
+        if (!IsValidMake()) return false;
+        if (!IsValidModel()) return false;
+        if (!IsValidYear()) return false;
+        if (!IsValidColor()) return false;
+        if (!IsValidPlate()) return false;
+        if (!IsValidNumberOfPassengers()) return false;
+
+        return true;
     }
 
-    [HttpGet(Name = "Get vehicles by all filters")]
-    public IActionResult GetByFilter([FromQuery] string? make, string? model, string? year, string? color, string? plate, int? passengerCapacity)
+    public bool IsValidMake()
     {
-        var vehicles = _vehicleService.GetByFilter(make, model, year, color, plate, passengerCapacity);
+        bool valid = true;
 
-        if (vehicles.Any())
-            return Ok(vehicles);
-        else
-            return NotFound("No vehicles found for the specified filter.");
+        try
+        {
+            if (string.IsNullOrEmpty(make)) throw new ArgumentNullException("Car branch can't be null or empty string.");
+        }
+        catch
+        {
+            valid = false;
+        }
+
+        return valid;
     }
 
-    [HttpPost(Name = "Create vehicle")]
-    public IActionResult Create([FromBody] Vehicle vehicle)
+    public bool IsValidModel()
     {
-        if (!vehicle.IsValid()) return BadRequest("The object could not be created because some parameter was filled in incorrectly.");
+        bool valid = true;
 
-        _vehicleService.Add(vehicle);
+        try
+        {
+            if (string.IsNullOrEmpty(model)) throw new ArgumentNullException("Car model can't be null or empty string.");
+        }
+        catch
+        {
+            valid = false;
+        }
 
-        return CreatedAtAction(nameof(GetByFilter), vehicle);
+        return valid;
+    }
+
+    public bool IsValidYear()
+    {
+        bool valid = true;
+
+        try
+        {
+            if (string.IsNullOrEmpty(year)) throw new ArgumentNullException("Car year can't be null or empty string.");
+        }
+        catch
+        {
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    public bool IsValidColor()
+    {
+        bool valid = true;
+
+        try
+        {
+            if (string.IsNullOrEmpty(color)) throw new ArgumentNullException("Color of car can't be null or empty string.");
+        }
+        catch
+        {
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    public bool IsValidPlate()
+    {
+        bool valid = true;
+
+        try
+        {
+            if (string.IsNullOrEmpty(plate)) throw new ArgumentNullException("Car plate can't be null or empty string.");
+        }
+        catch
+        {
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    public bool IsValidNumberOfPassengers()
+    {
+        bool valid = true;
+
+        try
+        {
+            if (passenger_capacity < 1) throw new Exception("The number of passengers cannot be less than 1.");
+        }
+        catch
+        {
+            valid = false;
+        }
+
+        return valid;
     }
 }

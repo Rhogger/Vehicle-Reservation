@@ -41,4 +41,14 @@ public class VehicleController : ControllerBase
     else
       return NotFound("No vehicles found for the specified filter.");
   }
+
+  [HttpPost(Name = "Create vehicle")]
+  public IActionResult Create([FromBody] Vehicle vehicle)
+  {
+    if (!vehicle.IsValid()) return BadRequest("The object could not be created because some parameter was filled in incorrectly.");
+
+    _vehicleService.Add(vehicle);
+
+    return CreatedAtAction(nameof(GetByFilter), vehicle);
+  }
 }
