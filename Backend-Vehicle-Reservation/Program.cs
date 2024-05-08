@@ -12,6 +12,7 @@ builder.Services.AddSingleton<ConnectionContext>();
 
 builder.Services.AddSingleton<IVehicleService, VehicleService>();
 builder.Services.AddSingleton<IReservationService, ReservationService>();
+builder.Services.AddSingleton<IPaymentService, PaymentService>();
 
 var app = builder.Build();
 

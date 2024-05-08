@@ -1,17 +1,29 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using VehicleReservation.Enums;
 using System.Text.Json.Serialization;
 
 namespace VehicleReservation.Models.Entities;
+
+[Table("payments")]
 public class Payment
 {
-  private string _id { get; set; }  
-  private string _name { get; set; }
-  private float _value { get; set; }  
-  private string _type {get; set; }
+  [Key]
+  public string payment_id { get; set; }  
+  public int reservation_id { get; set; }
+  public double value { get; set; }  
+  public PaymentType type {get; set; }
 
-
-  [JsonIgnore]
-  public string Id { get; set; }
-  public string Name { get; set; }
-  public float Value { get; set; }
-  public string Type { get; set; }
+  public Payment(int reservation_id, double value, PaymentType type)
+  {
+    this.reservation_id = reservation_id;
+    this.value = value;
+    this.type = type;
+  } 
+  public string ConvertPaymentTypeEnum()
+  {
+    if (type == PaymentType.cartao_credito) return "Cartão de Crédito";
+    if (type == PaymentType.cartao_debito) return "Cartão de Débito";
+    return "Boleto";
+  }
 }
