@@ -1,29 +1,39 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
+using VehicleReservation.Models.Entities;
+using VehicleReservation.Models.Interfaces;
 
-namespace VehicleReservation.Models.Entities;
+namespace VehicleReservation.Controllers;
 
-[Table("vehicles")]
-public class Vehicle
+[ApiController]
+[Route("[controller]/[action]")]
+public class VehicleController : ControllerBase
 {
-    [Key]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public int? vehicle_id { get; set; }
-    public string make { get; set; }
-    public string model { get; set; }
-    public string year { get; set; }
-    public string color { get; set; }
-    public string plate { get; set; }
-    public int passenger_capacity { get; set; }
-
-    public void Validate()
+    private readonly ILogger<VehicleController> _logger;
+    private readonly IVehicleService _vehicleService;
+    public VehicleController(ILogger<VehicleController> logger, IVehicleService vehicleService)
     {
-        if (string.IsNullOrEmpty(make)) throw new ArgumentNullException("Car branch can't be null or empty string.");
-        if (string.IsNullOrEmpty(model)) throw new ArgumentNullException("Car model can't be null or empty string.");
-        if (string.IsNullOrEmpty(year)) throw new ArgumentNullException("Car year can't be null or empty string.");
-        if (string.IsNullOrEmpty(color)) throw new ArgumentNullException("Color of car can't be null or empty string.");
-        if (string.IsNullOrEmpty(plate)) throw new ArgumentNullException("Car plate can't be null or empty string.");
-        if (passenger_capacity < 1) throw new Exception("The number of passengers cannot be less than 1.");
+        _logger = logger;
+        _vehicleService = vehicleService;
+    }
+
+    [HttpGet(Name = "Get vehicles by all filters")]
+    public IActionResult GetByFilter([FromQuery] string? make, string? model, string? year, string? color, string? plate, int? passengerCapacity)
+    {
+        var vehicles = _vehicleService.GetByFilter(make, model, year, color, plate, passengerCapacity);
+
+        if (vehicles.Any())
+            return Ok(vehicles);
+        else
+            return NotFound("No vehicles found for the specified filter.");
+    }
+
+    [HttpPost(Name = "Create vehicle")]
+    public IActionResult Create([FromBody] Vehicle vehicle)
+    {
+        if (!vehicle.IsValid()) return BadRequest("The object could not be created because some parameter was filled in incorrectly.");
+
+        _vehicleService.Add(vehicle);
+
+        return CreatedAtAction(nameof(GetByFilter), vehicle);
     }
 }
