@@ -7,14 +7,18 @@ namespace VehicleReservation.Models.Entities;
 [Table("reservations")]
 public class Reservation
 {
-  [Key]
-  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [Key]
   public int? reservation_id { get; set; }
   public int vehicle_id { get; set; }
   public DateTime start_date { get; set; }
   public DateTime end_date { get; set; }
-  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
   public double? value { get; set; }
-  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
   public int? payment_id { get; set; }  
+
+ public Reservation(int vehicle_id, DateTime start_date, DateTime end_date)
+  {
+    this.vehicle_id = vehicle_id;
+    this.start_date = start_date;
+    this.end_date = end_date;
+  } 
 }

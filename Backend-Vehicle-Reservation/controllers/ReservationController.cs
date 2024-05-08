@@ -28,8 +28,10 @@ public class ReservationController : ControllerBase
   }
 
   [HttpPost(Name = "Create reservation")]
-  public IActionResult Create([FromBody] Reservation reservation)
+  public IActionResult Create([FromBody] ReservationInput inputModel)
   {
+    var reservation = new Reservation(inputModel.vehicle_id, inputModel.start_date, inputModel.end_date);
+
     _reservationService.Add(reservation);
 
     return CreatedAtAction(nameof(Create), reservation);
