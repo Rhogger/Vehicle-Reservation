@@ -18,8 +18,9 @@ public class ReservationService : IReservationService
 
     public List<Reservation> GetByFilter(int? vehicle_id, DateTime? startDate, DateTime? endDate)
     {
-        IQueryable<Reservation> reservations = _context.Set<Reservation>()
-            .Include(r => r.Payment);
+        IQueryable<Reservation> reservations = _context.Set<Reservation>();
+
+        // IQueryable<Reservation> reservations = _context.Set<Reservation>().Include(r => r.payment);
 
         if (vehicle_id != null)
             reservations = reservations.Where(r => r.vehicle_id == vehicle_id);
@@ -35,6 +36,8 @@ public class ReservationService : IReservationService
             DateTime endUtc = endDate.Value.ToUniversalTime();
             reservations = reservations.Where(r => r.start_date <= endUtc || r.end_date <= endUtc);
         }
+
+        reservations = reservations.Include(r => r.payment_id);
 
         return reservations.ToList();
     }
