@@ -10,10 +10,12 @@ public class PaymentController : ControllerBase
 {
   private readonly ILogger<PaymentController> _logger;
   private readonly IPaymentService _paymentService;
-  public PaymentController(ILogger<PaymentController> logger, IPaymentService paymentService)
+  private readonly IReservationService _reservationService;
+  public PaymentController(ILogger<PaymentController> logger, IPaymentService paymentService, IReservationService reservationService)
   {
     _logger = logger;
     _paymentService = paymentService;
+    _reservationService = reservationService;
   }
 
   [HttpGet(Name = "Get payments by all filters")]
@@ -30,9 +32,25 @@ public class PaymentController : ControllerBase
   [HttpPost(Name = "Create payment")]
   public IActionResult Create([FromBody] PaymentInput inputModel)
   {
-    var payment = new Payment(inputModel.reservation_id, inputModel.value, inputModel.type);
+    var reservationList = _reservationService.GetByFilter(inputModel.reservation_id, null, null, null);
+
+    if (reservationList == null)
+      return NotFound("Reservation not found.");
+
+    var reservation = reservationList.FirstOrDefault();
+
+    var reservationValue = reservation?.value;
+
+    if (!reservationValue.HasValue)
+      return BadRequest("Reservation value is not available.");
+
+    var payment = new Payment(inputModel.reservation_id, (double)reservationValue, inputModel.type);
 
     _paymentService.Add(payment);
+
+    reservation.Payment = payment;
+
+    _reservationService.Update(reservation);
 
     return CreatedAtAction(nameof(Create), payment);
   }

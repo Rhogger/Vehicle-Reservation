@@ -15,8 +15,7 @@ public class Reservation
   public DateTime end_date { get; set; }
   public double? value { get; set; }
   [ForeignKey("payment_id")]
-  public Payment Payment { get; set; }
-  public int? payment_id { get; set; }
+  public Payment? Payment { get; set; }
 
   public Reservation(int vehicle_id, DateTime start_date, DateTime end_date)
   {

@@ -17,9 +17,9 @@ public class ReservationController : ControllerBase
   }
 
   [HttpGet(Name = "Get reservations by all filters")]
-  public IActionResult GetByFilter([FromQuery] int? vehicle_id, DateTime? startDate, DateTime? endDate)
+  public IActionResult GetByFilter([FromQuery] int? reservation_id, int? vehicle_id, DateTime? startDate, DateTime? endDate)
   {
-    var reservations = _reservationService.GetByFilter(vehicle_id, startDate, endDate);
+    var reservations = _reservationService.GetByFilter(reservation_id, vehicle_id, startDate, endDate);
 
     if (reservations.Any())
       return Ok(reservations);

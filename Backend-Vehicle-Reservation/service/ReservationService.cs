@@ -16,28 +16,29 @@ public class ReservationService : IReservationService
         _vehicleService = vehicleService;
     }
 
-    public List<Reservation> GetByFilter(int? vehicle_id, DateTime? startDate, DateTime? endDate)
+    public List<Reservation> GetByFilter(int? reservation_id, int? vehicle_id, DateTime? startDate, DateTime? endDate)
     {
         IQueryable<Reservation> reservations = _context.Set<Reservation>();
 
-        // IQueryable<Reservation> reservations = _context.Set<Reservation>().Include(r => r.payment);
-
-        if (vehicle_id != null)
-            reservations = reservations.Where(r => r.vehicle_id == vehicle_id);
-
-        if (startDate != null)
+        if (reservation_id != null) reservations = reservations.Where(r => r.reservation_id == reservation_id);
+        else
         {
-            DateTime startUtc = startDate.Value.ToUniversalTime();
-            reservations = reservations.Where(r => r.start_date >= startUtc || r.end_date >= startUtc);
+            if (vehicle_id != null) reservations = reservations.Where(r => r.vehicle_id == vehicle_id);
+
+            if (startDate != null)
+            {
+                DateTime startUtc = startDate.Value.ToUniversalTime();
+                reservations = reservations.Where(r => r.start_date >= startUtc || r.end_date >= startUtc);
+            }
+
+            if (endDate != null)
+            {
+                DateTime endUtc = endDate.Value.ToUniversalTime();
+                reservations = reservations.Where(r => r.start_date <= endUtc || r.end_date <= endUtc);
+            }
         }
 
-        if (endDate != null)
-        {
-            DateTime endUtc = endDate.Value.ToUniversalTime();
-            reservations = reservations.Where(r => r.start_date <= endUtc || r.end_date <= endUtc);
-        }
-
-        reservations = reservations.Include(r => r.payment_id);
+        // reservations = reservations.Include(r => r.Payment);
 
         return reservations.ToList();
     }
@@ -58,7 +59,13 @@ public class ReservationService : IReservationService
         _context.SaveChanges();
     }
 
-    public Boolean ValidReservation(Reservation reservation)
+    public void Update(Reservation reservation)
+    {
+        _context.Reservations.Update(reservation);
+        _context.SaveChanges();
+    }
+
+    public bool ValidReservation(Reservation reservation)
     {
         return !_context.Reservations.Any(r =>
             r.vehicle_id == reservation.vehicle_id &&
