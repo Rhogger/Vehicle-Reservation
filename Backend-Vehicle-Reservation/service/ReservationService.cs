@@ -38,22 +38,14 @@ public class ReservationService : IReservationService
             }
         }
 
-        // reservations = reservations.Include(r => r.Payment);
-
         return reservations.ToList();
     }
 
     public void Add(Reservation reservation)
     {
-        if (!_vehicleService.VehicleMin())
-            throw new InvalidOperationException("There are not enough cars available to make the reservation.");
+        if (!_vehicleService.VehicleMin()) throw new InvalidOperationException("There are not enough cars available to make the reservation.");
 
-        if (!ValidReservation(reservation))
-            throw new InvalidOperationException("There is already a reservation for this vehicle during this period.");
-
-        TimeSpan difference = reservation.end_date - reservation.start_date;
-        int numberOfDays = difference.Days;
-        reservation.value = numberOfDays * 150;
+        if (!ValidReservation(reservation)) throw new InvalidOperationException("There is already a reservation for this vehicle during this period.");
 
         _context.Reservations.Add(reservation);
         _context.SaveChanges();
