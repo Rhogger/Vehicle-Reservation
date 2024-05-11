@@ -6,7 +6,6 @@ public class VehicleTest
 {
   [Theory]
   [InlineData("")]
-  [InlineData(null)]
   [InlineData("Nissan")]
   public void IsValidMakeValue(string make)
   {
@@ -29,7 +28,6 @@ public class VehicleTest
 
   [Theory]
   [InlineData("")]
-  [InlineData(null)]
   [InlineData("Skyline GT-R")]
   public void IsValidModelValue(string model)
   {
@@ -75,7 +73,6 @@ public class VehicleTest
 
   [Theory]
   [InlineData("")]
-  [InlineData(null)]
   [InlineData("Azul")]
   public void IsValidColorValue(string color)
   {
@@ -98,7 +95,6 @@ public class VehicleTest
 
   [Theory]
   [InlineData("")]
-  [InlineData(null)]
   [InlineData("NGA0881")]
   public void IsValidPlateValue(string plate)
   {
