@@ -27,6 +27,7 @@ public class Vehicle
         this.plate = plate.ToUpper();
         this.passenger_capacity = passenger_capacity;
     }
+
     public bool IsValid()
     {
         if (!IsValidMake()) return false;
