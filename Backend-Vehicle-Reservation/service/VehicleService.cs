@@ -44,7 +44,7 @@ public class VehicleService : IVehicleService
     _context.SaveChanges();
   }
 
-  public Boolean VehicleMin()
+  public bool VehicleMin()
   {
     int numberOfVehicles = _context.Set<Vehicle>().Count();
     return numberOfVehicles >= 5;
