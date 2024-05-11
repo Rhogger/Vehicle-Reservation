@@ -5,7 +5,7 @@ using VehicleReservation.Controllers;
 using VehicleReservation.Models.Entities;
 using VehicleReservation.Models.Interfaces;
 
-namespace VehicleReservation.Tests.Controllers;
+namespace VehicleReservation.Test.Controllers;
 
 public class ReservationControllerTest
 {

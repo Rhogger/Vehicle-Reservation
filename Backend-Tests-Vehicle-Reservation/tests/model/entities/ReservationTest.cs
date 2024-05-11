@@ -1,6 +1,6 @@
 using VehicleReservation.Models.Entities;
 
-namespace VehicleReservation.Tests.Models.Entities;
+namespace VehicleReservation.Test.Models.Entities;
 public class ReservationTest
 {
   [Theory]
