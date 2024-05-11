@@ -8,10 +8,9 @@ public class VehicleTest
   [InlineData("")]
   [InlineData(null)]
   [InlineData("Nissan")]
-  public void IsValidMakeValue(string _make)
+  public void IsValidMakeValue(string make)
   {
     // Arrange
-    string make = _make;
     string model = "Skyline GT-R";
     string year = "2024";
     string color = "Azul";
@@ -21,28 +20,21 @@ public class VehicleTest
     Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
 
     // Act
-    bool isValidMake = vehicle.IsValidMake();
+    bool isValid = vehicle.IsValidMake();
 
     // Assert
-    if (!string.IsNullOrEmpty(make))
-    {
-      Assert.True(isValidMake);
-    }
-    else
-    {
-      Assert.False(isValidMake);
-    }
+    if (isValid) Assert.True(isValid);
+    else Assert.False(isValid);
   }
 
   [Theory]
   [InlineData("")]
   [InlineData(null)]
   [InlineData("Skyline GT-R")]
-  public void IsValidModelValue(string _model)
+  public void IsValidModelValue(string model)
   {
     // Arrange
     string make = "Nissan";
-    string model = _model;
     string year = "2024";
     string color = "Azul";
     string plate = "NGA0881";
@@ -51,29 +43,22 @@ public class VehicleTest
     Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
 
     // Act
-    bool isValidModel = vehicle.IsValidModel();
+    bool isValid = vehicle.IsValidModel();
 
     // Assert
-    if (!string.IsNullOrEmpty(model))
-    {
-      Assert.True(isValidModel);
-    }
-    else
-    {
-      Assert.False(isValidModel);
-    }
+    if (isValid) Assert.True(isValid);
+    else Assert.False(isValid);
   }
 
   [Theory]
   [InlineData("")]
   [InlineData(null)]
   [InlineData("2024")]
-  public void IsValidYearValue(string _year)
+  public void IsValidYearValue(string year)
   {
     // Arrange
     string make = "Nissan";
     string model = "Skyline GT-R";
-    string year = _year;
     string color = "Azul";
     string plate = "NGA0881";
     int passengerCapacity = 5;
@@ -81,84 +66,64 @@ public class VehicleTest
     Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
 
     // Act
-    bool isValidYear = vehicle.IsValidYear();
+    bool isValid = vehicle.IsValidYear();
 
     // Assert
-    if (!string.IsNullOrEmpty(year))
-    {
-      Assert.True(isValidYear);
-    }
-    else
-    {
-      Assert.False(isValidYear);
-    }
+    if (isValid) Assert.True(isValid);
+    else Assert.False(isValid);
   }
 
   [Theory]
   [InlineData("")]
   [InlineData(null)]
   [InlineData("Azul")]
-  public void IsValidColorValue(string _color)
+  public void IsValidColorValue(string color)
   {
     // Arrange
     string make = "Nissan";
     string model = "Skyline GT-R";
     string year = "2024";
-    string color = _color;
     string plate = "NGA0881";
     int passengerCapacity = 5;
 
     Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
 
     // Act
-    bool isValidColor = vehicle.IsValidColor();
+    bool isValid = vehicle.IsValidColor();
 
     // Assert
-    if (!string.IsNullOrEmpty(color))
-    {
-      Assert.True(isValidColor);
-    }
-    else
-    {
-      Assert.False(isValidColor);
-    }
+    if (isValid) Assert.True(isValid);
+    else Assert.False(isValid);
   }
 
   [Theory]
   [InlineData("")]
   [InlineData(null)]
   [InlineData("NGA0881")]
-  public void IsValidPlateValue(string _plate)
+  public void IsValidPlateValue(string plate)
   {
     // Arrange
     string make = "Nissan";
     string model = "Skyline GT-R";
     string year = "2024";
     string color = "Azul";
-    string plate = _plate;
     int passengerCapacity = 5;
 
     Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
 
     // Act
-    bool isValidPlate = vehicle.IsValidPlate();
+    bool isValid = vehicle.IsValidPlate();
 
     // Assert
-    if (!string.IsNullOrEmpty(plate))
-    {
-      Assert.True(isValidPlate);
-    }
-    else
-    {
-      Assert.False(isValidPlate);
-    }
+    if (isValid) Assert.True(isValid);
+    else Assert.False(isValid);
   }
 
   [Theory]
   [InlineData(0)]
   [InlineData(1)]
   [InlineData(5)]
-  public void IsValidNumberOfPassengersValue(int _passengersCapacity)
+  public void IsValidNumberOfPassengersValue(int passengersCapacity)
   {
     // Arrange
     string make = "Nissan";
@@ -166,21 +131,14 @@ public class VehicleTest
     string year = "2024";
     string color = "Azul";
     string plate = "NGA0881";
-    int passengerCapacity = _passengersCapacity;
 
-    Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
+    Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengersCapacity);
 
     // Act
-    bool isValidNumberOfPassengers = vehicle.IsValidNumberOfPassengers();
+    bool isValid = vehicle.IsValidNumberOfPassengers();
 
     // Assert
-    if (passengerCapacity < 1)
-    {
-      Assert.False(isValidNumberOfPassengers);
-    }
-    else
-    {
-      Assert.True(isValidNumberOfPassengers);
-    }
+    if (isValid) Assert.True(isValid);
+    else Assert.False(isValid);
   }
 }
