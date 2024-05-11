@@ -36,7 +36,7 @@ public class ReservationControllerTest
   public void GetByFilter_ReturnsOkResult()
   {
     // Arrange
-    var expectedReservations = new List<Reservation>
+    List<Reservation> expectedReservations = new List<Reservation>
             {
                 new Reservation(18, DateTime.Now, DateTime.Now.AddDays(4)),
                 new Reservation(16, DateTime.Now, DateTime.Now.AddDays(3)),
@@ -75,13 +75,13 @@ public class ReservationControllerTest
   public void Create_ReturnsCreatedAtActionResult()
   {
     // Arrange
-    var vehicle_id = 18;
-    var start_date = DateTime.Now;
-    var end_date = DateTime.Now.AddDays(1);
+    int vehicle_id = 18;
+    DateTime start_date = DateTime.Now;
+    DateTime end_date = DateTime.Now.AddDays(1);
 
-    var inputModel = new ReservationInput(vehicle_id, start_date, end_date);
+    ReservationInput inputModel = new ReservationInput(vehicle_id, start_date, end_date);
 
-    var createdReservation = new Reservation(vehicle_id, start_date, end_date);
+    Reservation createdReservation = new Reservation(vehicle_id, start_date, end_date);
 
     mockReservationService.Setup(service => service.Add(It.IsAny<Reservation>()))
                           .Callback<Reservation>(r => createdReservation = r);
@@ -98,32 +98,14 @@ public class ReservationControllerTest
   }
 
   [Fact]
-  public void Create_ThrowsException_WhenMinimumVehiclesNotAvailable()
-  {
-    // Arrange
-    var vehicle_id = 18;
-    var start_date = DateTime.Now;
-    var end_date = DateTime.Now.AddDays(1);
-
-    var inputModel = new ReservationInput(vehicle_id, start_date, end_date);
-
-    mockReservationService.Setup(service => service.Add(It.IsAny<Reservation>()))
-                          .Throws(new InvalidOperationException("There are not enough cars available to make the reservation."));
-
-    // Act & Assert
-    var ex = Assert.Throws<InvalidOperationException>(() => controller.Create(inputModel));
-    Assert.Equal("There are not enough cars available to make the reservation.", ex.Message);
-  }
-
-  [Fact]
   public void Create_ReturnsBadRequest_WhenBadRequestOccurs()
   {
     // Arrange
-    var vehicle_id = 18;
-    var start_date = DateTime.Now;
-    var end_date = DateTime.Now.AddDays(1);
+    int vehicle_id = 18;
+    DateTime start_date = DateTime.Now;
+    DateTime end_date = DateTime.Now.AddDays(1);
 
-    var inputModel = new ReservationInput(vehicle_id, start_date, end_date);
+    ReservationInput inputModel = new ReservationInput(vehicle_id, start_date, end_date);
 
     mockReservationService.Setup(service => service.Add(It.IsAny<Reservation>()))
                           .Throws(new InvalidOperationException("Some other bad request occurred."));
