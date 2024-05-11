@@ -23,4 +23,86 @@ public class Reservation
     this.start_date = start_date;
     this.end_date = end_date;
   }
+
+  public bool IsValid()
+  {
+    if (!IsValidVehicleId()) return false;
+    if (!IsValidStartDate()) return false;
+    if (!IsValidEndDate()) return false;
+    if (!IsValidValue()) return false;
+    return true;
+  }
+
+  public bool IsValidVehicleId()
+  {
+    bool valid = true;
+
+    try
+    {
+      if (vehicle_id < 0) throw new Exception("The vehicle ID is invalid.");
+    }
+    catch
+    {
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  public bool IsValidStartDate()
+  {
+    bool valid = true;
+
+    try
+    {
+      if (start_date.Date < DateTime.Now.Date) throw new Exception("The start date is less than the current date.");
+    }
+    catch
+    {
+      valid = false;
+    }
+
+    return valid;
+  }
+  public bool IsValidEndDate()
+  {
+    bool valid = true;
+
+    try
+    {
+      if (end_date.Date < start_date.Date) throw new Exception("The end date is less than the start date.");
+    }
+    catch
+    {
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  public bool IsValidValue()
+  {
+    bool valid = true;
+
+    try
+    {
+      CalculateValue();
+
+      if (value <= 0) throw new Exception("Value is 0 or less.");
+    }
+    catch
+    {
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  protected void CalculateValue()
+  {
+    TimeSpan difference = this.end_date - this.start_date;
+    int numberOfDays = difference.Days;
+
+    value = numberOfDays * 150;
+  }
 }

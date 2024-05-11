@@ -27,13 +27,14 @@ public class ReservationController : ControllerBase
       return NotFound("No reservations found for the specified filter.");
   }
 
-
   [HttpPost(Name = "Create reservation")]
   public IActionResult Create([FromBody] ReservationInput inputModel)
   {
     try
     {
       var reservation = new Reservation(inputModel.vehicle_id, inputModel.start_date, inputModel.end_date);
+
+      if (!reservation.IsValid()) return BadRequest("The object could not be created because some parameter was filled in incorrectly.");
 
       _reservationService.Add(reservation);
 
