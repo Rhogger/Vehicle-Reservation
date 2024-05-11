@@ -19,6 +19,15 @@ public class Payment
     this.type = type.ToLower();
   }
 
+  public bool IsValid()
+  {
+    if (!IsValidReservationId()) return false;
+    if (!IsValidValue()) return false;
+    if (!IsValidType()) return false;
+
+    return true;
+  }
+
   public bool IsValidReservationId()
   {
     bool valid = true;

@@ -34,17 +34,17 @@ public class PaymentController : ControllerBase
   {
     var reservationList = _reservationService.GetByFilter(inputModel.reservation_id, null, null, null);
 
-    if (reservationList == null)
-      return NotFound("Reservation not found.");
+    if (reservationList == null) return NotFound("Reservation not found.");
 
     var reservation = reservationList.FirstOrDefault();
 
     var reservationValue = reservation?.value;
 
-    if (!reservationValue.HasValue)
-      return BadRequest("Reservation value is not available.");
+    if (!reservationValue.HasValue) return BadRequest("Reservation value is not available.");
 
     var payment = new Payment(inputModel.reservation_id, (double)reservationValue, inputModel.type);
+
+    if (!payment.IsValid()) return BadRequest("The object could not be created because some parameter was filled in incorrectly.");
 
     _paymentService.Add(payment);
 
