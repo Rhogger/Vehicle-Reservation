@@ -20,11 +20,11 @@ public class Vehicle
 
     public Vehicle(string make, string model, string year, string color, string plate, int passenger_capacity)
     {
-        this.make = make;
-        this.model = model;
+        this.make = make.ToLower();
+        this.model = model.ToLower();
         this.year = year;
-        this.color = color;
-        this.plate = plate;
+        this.color = color.ToLower();
+        this.plate = plate.ToUpper();
         this.passenger_capacity = passenger_capacity;
     }
     public bool IsValid()
