@@ -17,8 +17,17 @@ public class Reservation
   [ForeignKey("payment_id")]
   public Payment? Payment { get; set; }
 
+  [JsonConstructor]
   public Reservation(int vehicle_id, DateTime start_date, DateTime end_date)
   {
+    this.vehicle_id = vehicle_id;
+    this.start_date = start_date;
+    this.end_date = end_date;
+  }
+
+  public Reservation(int reservation_id, int vehicle_id, DateTime start_date, DateTime end_date)
+  {
+    this.reservation_id = reservation_id;
     this.vehicle_id = vehicle_id;
     this.start_date = start_date;
     this.end_date = end_date;
