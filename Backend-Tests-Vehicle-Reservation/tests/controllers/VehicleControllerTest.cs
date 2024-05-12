@@ -9,8 +9,16 @@ namespace VehicleReservation.Test.Controllers;
 
 public class VehicleControllerTest
 {
-  private readonly Mock<ILogger<VehicleController>> mockLogger = new Mock<ILogger<VehicleController>>();
-  private readonly Mock<IVehicleService> mockVehicleService = new Mock<IVehicleService>();
+  private readonly Mock<ILogger<VehicleController>> mockLogger;
+  private readonly Mock<IVehicleService> mockVehicleService;
+  private readonly VehicleController controller;
+
+  public VehicleControllerTest()
+  {
+    mockLogger = new Mock<ILogger<VehicleController>>();
+    mockVehicleService = new Mock<IVehicleService>();
+    controller = new VehicleController(mockLogger.Object, mockVehicleService.Object);
+  }
 
 
   [Fact]
@@ -28,8 +36,6 @@ public class VehicleControllerTest
     Vehicle vehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
 
     mockVehicleService.Setup(service => service.Add(It.IsAny<Vehicle>()));
-
-    var controller = new VehicleController(mockLogger.Object, mockVehicleService.Object);
 
     // Act
     var result = controller.Create(vehicleInput);
@@ -55,8 +61,6 @@ public class VehicleControllerTest
 
     VehicleInput vehicleInput = new VehicleInput(make, model, year, color, plate, passengerCapacity);
 
-    var controller = new VehicleController(mockLogger.Object, mockVehicleService.Object);
-
     // Act
     var result = controller.Create(vehicleInput);
 
@@ -73,8 +77,6 @@ public class VehicleControllerTest
 
     mockVehicleService.Setup(service => service.GetByFilter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int?>())).Returns(new List<Vehicle>());
 
-    var controller = new VehicleController(mockLogger.Object, mockVehicleService.Object);
-
     // Act
     var result = controller.GetByFilter(make, null, null, null, null, null);
 
@@ -84,7 +86,7 @@ public class VehicleControllerTest
   }
 
   [Fact]
-  public void GetByFilter_ReturnsOkWithVehicles()
+  public void GetByFilter_ReturnsOk()
   {
     // Arrange
     string make = "Nissan";
@@ -94,12 +96,10 @@ public class VehicleControllerTest
     string plate = "NGA0886";
     int passengerCapacity = 5;
 
-    var expectedVehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
+    Vehicle expectedVehicle = new Vehicle(make, model, year, color, plate, passengerCapacity);
 
     mockVehicleService.Setup(service => service.GetByFilter(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int?>()))
                       .Returns(new List<Vehicle> { expectedVehicle });
-
-    var controller = new VehicleController(mockLogger.Object, mockVehicleService.Object);
 
     // Act
     var result = controller.GetByFilter(make, model, year, color, plate, passengerCapacity);
@@ -110,5 +110,4 @@ public class VehicleControllerTest
     Assert.NotEmpty(vehicles);
     Assert.Contains(expectedVehicle, vehicles);
   }
-
 }
