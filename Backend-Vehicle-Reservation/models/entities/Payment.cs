@@ -67,7 +67,7 @@ public class Payment
     try
     {
       if (string.IsNullOrEmpty(type)) throw new ArgumentNullException("Type of payment can't be null or empty string.");
-      if (type != "boleto" || type != "cartao_credito" || type != "cartao_debito") throw new ArgumentOutOfRangeException("Payment way is invalid.");
+      if (type != "boleto" && type != "cartao_credito" && type != "cartao_debito") throw new ArgumentOutOfRangeException("Payment way is invalid.");
     }
     catch
     {
